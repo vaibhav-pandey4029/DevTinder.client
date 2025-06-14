@@ -5,8 +5,8 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../constants";
 const Login = () => {
-    const [emailId,setEmailId] = useState("");
-    const [password,setPassword] = useState("");
+    const [emailId,setEmailId] = useState("rs@gmail.com");
+    const [password,setPassword] = useState("1234@Sharma");
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const handleLogin = async()=>{
@@ -16,7 +16,7 @@ const Login = () => {
                 password
             },{withCredentials:true});
             dispatch(addUser(res.data));
-            navigate("/")
+            return navigate("/")
         } catch (error) {
             console.error(error)
         }
