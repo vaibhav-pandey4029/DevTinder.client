@@ -3,14 +3,15 @@ import Navbar from "./Navbar";
 import { Outlet } from "react-router-dom";
 import Footer from "./Footer";
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../constants";
-import { addUser } from "../utils/userSlice";
+import { addUser, removeUser } from "../utils/userSlice";
 
 const Body = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const user = useSelector((store)=>store.user);
   const fetchUser = async () => {
     try {
       const res = await axios.get(
@@ -19,15 +20,15 @@ const Body = () => {
       );
       dispatch(addUser(res.data));
     } catch (error) {
-      if(error.status === 401 )
-        navigate("/login");
-      console.error(error);
+      if(error.status === 401 ){
+        return navigate("/login");
+      }
     }
   };
   useEffect(() => {
     // TODO: if interval server error then redirect to error page
     // if user is unauthorized redirect to login page
-      fetchUser();
+    fetchUser();
   },[]);
   return (
     <div>
